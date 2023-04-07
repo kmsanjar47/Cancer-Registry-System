@@ -1,0 +1,43 @@
+name: cancer_registry_system
+description: A new Flutter project.
+
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=2.19.5 <3.0.0'
+
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.2
+  http: ^0.13.5
+  provider: ^6.0.5
+  geolocator: ^9.0.2
+  firebase_core: ^2.7.0
+  firebase_auth: ^4.2.9
+  cloud_firestore: ^4.4.4
+  percent_indicator: ^4.2.3
+  flutter_barcode_scanner: ^2.0.0
+  document_scanner_flutter: ^0.2.3
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^2.0.0
+
+
+flutter:
+
+  uses-material-design: true
+  assets:
+    - assets/Untitled design.png
+    - assets/ribbon.png
+    - assets/patient_placeholder.png
+    - assets/doctor_male.png
+    - assets/patient.png
+
