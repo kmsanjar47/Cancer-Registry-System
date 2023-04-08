@@ -32,85 +32,83 @@ class _SignInPageState extends State<SignInPage> {
       child: Consumer<AuthController>(
         builder: (_, snapshot,___) {
           return Scaffold(
+            resizeToAvoidBottomInset: false,
+            body: Center(
+              child: Padding(
+              padding: const EdgeInsets.all(6.0),
+              child: Column(
 
-            body: SingleChildScrollView(
-              child: Center(
-                child: Padding(
-                padding: const EdgeInsets.all(6.0),
-                child: Column(
+                children: [
+                  const SizedBox(height: 20,),
+                  Image.asset("assets/ribbon.png",height: 200,width: 200,),
+                  const SizedBox(height: 100,),
+                  //Sign in text
+                  const Text("Sign in",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 30),),
+                  const SizedBox(height: 10,),
 
-                  children: [
-                    const SizedBox(height: 20,),
-                    Image.asset("assets/ribbon.png",height: 200,width: 200,),
-                    const SizedBox(height: 100,),
-                    //Sign in text
-                    const Text("Sign in",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 30),),
-                    const SizedBox(height: 10,),
+                  //Username Text field
+                  CustomTextField(
+                    textEditingController: userNameTxtCtl,
+                    hintText: "Email",
+                  ),
 
-                    //Username Text field
-                    CustomTextField(
-                      textEditingController: userNameTxtCtl,
-                      hintText: "Email",
+                  //Password Text field
+                  CustomTextField(
+                    obscureText: true,
+                    textEditingController: passwordTxtCtl,
+                    hintText: "Password",
+                  ),
+
+                  const SizedBox(height: 10,),
+
+                  //Sign in button
+                  ElevatedButton(
+                    onPressed: () async {
+
+                      User? user = await snapshot.signIn(
+                          userNameTxtCtl!.text,
+                          passwordTxtCtl!.text,
+                          context);
+                      if (user != null) {
+                        Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const NavigationPage(),),(route)=>true);
+                      }
+
+                    },
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(Colors.pink),
+                      minimumSize: const MaterialStatePropertyAll(
+                        Size(double.infinity, 50),
+                      ),
                     ),
+                    child:snapshot.isLoading == true?const Center(child: CircularProgressIndicator(color: Colors.white,),): const Text("Sign In"),
+                  ),
+                  const SizedBox(height: 10,),
 
-                    //Password Text field
-                    CustomTextField(
-                      obscureText: true,
-                      textEditingController: passwordTxtCtl,
-                      hintText: "Password",
-                    ),
-
-                    const SizedBox(height: 10,),
-
-                    //Sign in button
-                    ElevatedButton(
-                      onPressed: () async {
-
-                        User? user = await snapshot.signIn(
-                            userNameTxtCtl!.text,
-                            passwordTxtCtl!.text,
-                            context);
-                        if (user != null) {
-                          Navigator.pushAndRemoveUntil(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const NavigationPage(),),(route)=>true);
-                        }
-
-                      },
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(Colors.pink),
-                        minimumSize: const MaterialStatePropertyAll(
-                          Size(double.infinity, 50),
+                  //New User?
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text("Don't have an account?"),
+                      const SizedBox(
+                        width: 5,
+                      ),
+                      InkWell(
+                        onTap: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => const RegistrationPage()));
+                        },
+                        child: const Text(
+                          "Register",
+                          style: TextStyle(color: Colors.blue),
                         ),
                       ),
-                      child:snapshot.isLoading == true?const Center(child: CircularProgressIndicator(),): const Text("Sign In"),
-                    ),
-                    const SizedBox(height: 10,),
-
-                    //New User?
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Text("Don't have an account?"),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        InkWell(
-                          onTap: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => const RegistrationPage()));
-                          },
-                          child: const Text(
-                            "Register",
-                            style: TextStyle(color: Colors.blue),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+                    ],
                   ),
+                ],
               ),
+                ),
             ),
           );
         }

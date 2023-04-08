@@ -2,7 +2,7 @@ import 'dart:math';
 import 'package:cancer_registry_system/constants/constants.dart';
 import 'package:cancer_registry_system/controllers/auth_controllers.dart';
 import 'package:cancer_registry_system/controllers/weather_controller.dart';
-import 'package:cancer_registry_system/data/repository/auth_repository.dart';
+import 'package:cancer_registry_system/pages/doctor_panel/add_patient_page.dart';
 import 'package:cancer_registry_system/widgets/doctor_statistics_card.dart';
 import 'package:cancer_registry_system/widgets/medium_text.dart';
 import 'package:flutter/material.dart';
@@ -102,11 +102,6 @@ class _DoctorDashboardPageState extends State<DoctorDashboardPage> {
                               ),
                             ],
                           ),
-                          // Image.asset(
-                          //   "assets/ribbon.png",
-                          //   height: 50,
-                          //   width: 50,
-                          // ),
                           snapshot.isLoading == false &&
                                   snapshot.weatherData != null
                               ? Row(
@@ -182,7 +177,7 @@ class _DoctorDashboardPageState extends State<DoctorDashboardPage> {
 
                       ElevatedButton(
                         onPressed: () async {
-                          await AuthRepository().firebaseAuth.signOut();
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>AddPatientPage(),),);
                         },
                         style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all(

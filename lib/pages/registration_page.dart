@@ -105,7 +105,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                           Size(double.infinity, 50),
                         ),
                       ),
-                      child: snapshot.isLoading == true? const Center(child: CircularProgressIndicator(),):const Text("Register"),
+                      child: snapshot.isLoading == true? const Center(child: CircularProgressIndicator(color: Colors.white,),):const Text("Register"),
                     ),
 
                     const SizedBox(height: 10,),

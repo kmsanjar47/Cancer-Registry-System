@@ -1,12 +1,13 @@
+import 'dart:convert';
 import 'dart:io';
-
 import 'package:cancer_registry_system/constants/constants.dart';
 import 'package:cancer_registry_system/data/repository/patient_repository.dart';
+import 'package:cancer_registry_system/models/patient_model.dart';
+import 'package:cancer_registry_system/widgets/medium_text.dart';
 import 'package:cancer_registry_system/widgets/title_text.dart';
 import 'package:document_scanner_flutter/document_scanner_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
 import '../../widgets/big_text.dart';
 
 class PatientDescriptionPage extends StatefulWidget {
@@ -20,11 +21,11 @@ class PatientDescriptionPage extends StatefulWidget {
 }
 
 class _PatientDescriptionPageState extends State<PatientDescriptionPage> {
-  Map<String, dynamic>? patientData;
+  PatientModel? patientData;
 
   getPatientData(String patientID) {
     PatientRepository.dummyPatientData.forEach((element) {
-      if (element["patientID"] == patientID) {
+      if (element.patientId == patientID) {
         setState(() {
           patientData = element;
         });
@@ -60,10 +61,9 @@ class _PatientDescriptionPageState extends State<PatientDescriptionPage> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    TitleText(text: patientData!["name"]),
-                    BigText(text: "Cancer Type: ${patientData!["cancerType"]}"),
-                    BigText(
-                        text: "Cancer Stage: ${patientData!["cancerStage"]}"),
+                    TitleText(text: patientData!.name),
+                    BigText(text: "Cancer Type: ${patientData!.cancerType}"),
+                    BigText(text: "Cancer Stage: ${patientData!.cancerStage}"),
                   ],
                 ),
               ],
@@ -89,7 +89,8 @@ class _PatientDescriptionPageState extends State<PatientDescriptionPage> {
                       )
                     ]),
                   ),
-                  body: TabBarView(children: [AddReports(), ExistingReports()]),
+                  body: const TabBarView(
+                      children: [AddReports(), ExistingReports()]),
                 ),
               ),
             ),
@@ -103,10 +104,8 @@ class ExistingReports extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Center(
-        child: Text("ADD Reports"),
-      ),
+    return const Center(
+      child: Text("ADD Reports"),
     );
   }
 }
@@ -120,19 +119,25 @@ class AddReports extends StatefulWidget {
 
 class _AddReportsState extends State<AddReports> {
   File? scannedFile;
+  String? base64img;
 
   scanDocument(BuildContext context) async {
     scannedFile = null;
+    base64img = null;
     try {
       File? scannedDoc = await DocumentScannerFlutter.launch(context);
       setState(() {
         scannedFile = scannedDoc;
+        dynamic bytes = File(scannedFile!.path).readAsBytesSync();
+        base64img = base64Encode(bytes);
       });
       // `scannedDoc` will be the image file scanned from scanner
     } on PlatformException {
       // 'Failed to get document path or operation cancelled!';
     }
   }
+
+  String _dropDownSelectedItem = "NO REPORT SELECTED";
 
   @override
   Widget build(BuildContext context) {
@@ -166,16 +171,68 @@ class _AddReportsState extends State<AddReports> {
                       ),
                     ),
                   )
-                : Container(
-                    child: Image.file(scannedFile!),
-                    height: 200,
-                    width: 200,
+                : SizedBox(
+                    height: 300,
+                    width: 300,
+                    child: Image.memory(base64Decode(base64img!)),
                   ),
           ),
           const SizedBox(
             height: 10,
           ),
-          const BigText(text: "Add New Report")
+          scannedFile == null
+              ? const BigText(text: "Add New Report")
+              : Column(
+                  children: [
+                    DropdownButton(
+                        hint: const MediumText(
+                          text: "Select Report",
+                        ),
+                        focusColor: Constants.primaryColor,
+                        items: const [
+                          DropdownMenuItem(
+                            value: "HAEMATOLOGY",
+                            child: Text("HAEMATOLOGY"),
+                          ),
+                          DropdownMenuItem(
+                            value: "BIOCHEMISTRY",
+                            child: Text("BIOCHEMISTRY"),
+                          ),
+                          DropdownMenuItem(
+                            value: "IMMUNOLOGY",
+                            child: Text("IMMUNOLOGY"),
+                          ),
+                          DropdownMenuItem(
+                            value: "URINE ROUTINE",
+                            child: Text("URINE ROUTINE"),
+                          ),
+                        ],
+                        onChanged: (value) {
+                          setState(() {
+                            _dropDownSelectedItem = value!;
+                          });
+                        }),
+                    MediumText(
+                      text:
+                          "Report Selected: ${_dropDownSelectedItem.toString()}",
+                      fontWeight: FontWeight.bold,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ElevatedButton(
+                        onPressed: () {},
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(
+                              const Color.fromARGB(255, 255, 64, 109)),
+                          minimumSize: const MaterialStatePropertyAll(
+                            Size(double.infinity, 50),
+                          ),
+                        ),
+                        child: const Text("Submit"),
+                      ),
+                    ),
+                  ],
+                )
         ],
       ),
     );

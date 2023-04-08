@@ -53,9 +53,9 @@ class _PatientsPageState extends State<PatientsPage> {
                   itemBuilder: (context, index) {
                 return PatientCard(
                   onTap: (){
-                    Navigator.of(context).push(MaterialPageRoute(builder: (context)=>PatientDescriptionPage(patientID:PatientRepository.dummyPatientData[index]["patientID"])));
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context)=>PatientDescriptionPage(patientID:PatientRepository.dummyPatientData[index].patientId)));
                   },
-                    patientName: PatientRepository.dummyPatientData[index]["name"], cancerType: PatientRepository.dummyPatientData[index]["cancerType"], cancerStage: PatientRepository.dummyPatientData[index]["cancerStage"]);
+                    patientName: PatientRepository.dummyPatientData[index].name, cancerType: PatientRepository.dummyPatientData[index].cancerType, cancerStage: PatientRepository.dummyPatientData[index].cancerStage);
               },
                   separatorBuilder: (context, index) {
                 return const SizedBox(height: 10,);

@@ -1,3 +1,4 @@
+import 'package:cancer_registry_system/constants/constants.dart';
 import 'package:flutter/material.dart';
 
 class CustomTextField extends StatelessWidget {
@@ -22,9 +23,9 @@ class CustomTextField extends StatelessWidget {
           enabledBorder: const OutlineInputBorder(
               borderSide: BorderSide(color: Colors.white, width: 2),
               borderRadius: BorderRadius.all(Radius.circular(5))),
-          focusedBorder: const OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.greenAccent,width: 2),
-            borderRadius: BorderRadius.all(Radius.circular(5),),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Constants.primaryColor,width: 2),
+            borderRadius: const BorderRadius.all(Radius.circular(5),),
           ),
         ),
       ),

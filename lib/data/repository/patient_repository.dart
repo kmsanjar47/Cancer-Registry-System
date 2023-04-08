@@ -2,7 +2,7 @@ import 'package:cancer_registry_system/models/patient_model.dart';
 
 class PatientRepository {
 
-  static  List<Map<String,dynamic>> dummyPatientData = [
+  static  List<PatientModel> dummyPatientData = [
 
     PatientModel(
       address: "Dhaka",
@@ -15,8 +15,8 @@ class PatientRepository {
       creationDate: DateTime.now(),
       qrCode: "",
       cancerStage: "3",
-      cancerType: "Lung")
-      .toJson(),
+      cancerType: "Lung"),
+
     PatientModel(
         address: "Dhaka",
         patientID: "XJHKHKDAJ@#!@",
@@ -28,8 +28,8 @@ class PatientRepository {
         creationDate: DateTime.now(),
         qrCode: "",
         cancerStage: "3",
-        cancerType: "Lung")
-        .toJson(),
+        cancerType: "Lung"),
+
 
     PatientModel(
         address: "Dhaka",
@@ -42,8 +42,8 @@ class PatientRepository {
         creationDate: DateTime.now(),
         qrCode: "",
         cancerStage: "3",
-        cancerType: "Lung")
-        .toJson(),
+        cancerType: "Lung"),
+
     PatientModel(
         address: "Dhaka",
         patientID: "XJHKHASDKJ@#!@",
@@ -56,7 +56,7 @@ class PatientRepository {
         qrCode: "",
         cancerStage: "3",
         cancerType: "Lung")
-        .toJson(),
+
   ];
 }
 
